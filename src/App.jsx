@@ -8,6 +8,8 @@ import './App.css';
 const GETURL  = "https://interview-8e4c5-default-rtdb.firebaseio.com/front-end/counter1.json"
 const MAX_VALUE = 1000
 
+
+const PUT_URL =  "https://interview-8e4c5-default-rtdb.firebaseio.com/front-end.json" ;
 const  CounterValue = ({value})=>{
 
 return (
@@ -80,6 +82,22 @@ const CounterCore = ({counterValue, decreaseCount,increaseCount,onChange})=>{
   )
 }
 
+
+function sendDataToServer(new_value){
+
+// axios.PUT(PUT_URL,{'divyanshu raj' :new_value})
+// .then(()=>{
+//  console.log("sucess")
+
+// })
+// .catch(()=>{
+//   console.log("some error ocuured while perfomring put reques")
+// })
+ 
+
+}
+
+
 function App(){
 const [value, setValue] = useState(1) 
 
@@ -105,8 +123,19 @@ useEffect(()=>{
   document.querySelector('.editable').onkeypress = (e)=>{
     if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
 }
+
+return ()=>{
+document.querySelector('.editable').onkeypress = null ;
+
+}
   
 },[])
+
+useEffect(()=>{
+  
+ sendDataToServer(value) ;
+
+},[value]) ;
 
 const handleIncreaseCount =()=>{
   if(value<MAX_VALUE)
@@ -120,8 +149,8 @@ const handleDecreaseCount =()=>{
 const handleOnChange = (x)=>{
   
   if(parseInt(x) <=MAX_VALUE)
-setValue(parseInt(x) )
-else if(parseInt(x)  > MAX_VALUE ){
+    setValue(parseInt(x) )
+  else if(parseInt(x)  > MAX_VALUE ){
   setValue(MAX_VALUE) 
 }
 
