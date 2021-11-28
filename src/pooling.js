@@ -8,22 +8,32 @@ class Pooler{
 
     requests =[]
     consuming = false 
+
+    resolver ;
+    rejecter ;
    
   constructor(r){
 
     //nothing yet
+    alert("consturcter")
 
   }
 
 addRequest(value){
 
  
+console.log("hello ji")
 
-  requets.push(value) ;
+  requests.unshift(value) ;
    if(consuming == false)
    consume()
 
+   let _promise = new Promise((resolve,reject)=>{
+     resolver = resolve ;
+     rejector = reject ;
+   })
 
+return _promise ;
 }
 
   consume(){
@@ -31,6 +41,8 @@ addRequest(value){
     //base case
     if(requests.length ==0 ){
       consuming = false 
+      resolver() ;
+
       return ;
     }
      let value = requests.back() ;
@@ -45,6 +57,7 @@ addRequest(value){
      }).catch(()=>{
        //recurive move on for next 
        sendRequest() ;
+       rejector() ;
      })
     
 
