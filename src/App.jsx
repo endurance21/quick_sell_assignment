@@ -104,6 +104,8 @@ const [loading, setLoading] = useState(false)
 
 
 function sendDataToServer(new_value){
+
+  
 setLoading(true) ;
 pooler.addRequest(new_value)
 .then(()=>{
@@ -112,17 +114,7 @@ setLoading(false) ;
 .catch(()=>{
 setLoading(false) ;
 })
-// axios.put(PUT_URL,{ Divyanshu_Raj :new_value})
-// .then(()=>{
 
-//  console.log("sucess")
-//  setLoading(false) ;
-
-// })
-// .catch(()=>{
-//   console.log("some error ocuured while perfomring put reques")
-//   setLoading(false) ;
-// })
 
 
  
