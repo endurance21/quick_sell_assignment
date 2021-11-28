@@ -33,20 +33,25 @@ const Spinner = ()=>{
 
   return (
 
-    <span>
-    spin..
+    <span class="spinner">
+    
     </span>
   )
 }
-const Loader  = ()=>{
+const Loader  = ({loading})=>{
 
   return (
 
-    <div>
+    <div class="loader_main">
+  {loading ? 
+  <>
        <Spinner/>
       <span>
         Saving...
       </span>
+  </>
+
+   : " "}
     </div>
   )
 }
@@ -83,26 +88,30 @@ const CounterCore = ({counterValue, decreaseCount,increaseCount,onChange})=>{
 }
 
 
-function sendDataToServer(new_value){
 
-// axios.PUT(PUT_URL,{'divyanshu raj' :new_value})
-// .then(()=>{
-//  console.log("sucess")
-
-// })
-// .catch(()=>{
-//   console.log("some error ocuured while perfomring put reques")
-// })
- 
-
-}
 
 
 function App(){
 const [value, setValue] = useState(1) 
+const [loading, setLoading] = useState(false) 
 
 
+function sendDataToServer(new_value){
+setLoading(true) ;
+axios.put(PUT_URL,{ Divyanshu_Raj :new_value})
+.then(()=>{
 
+ console.log("sucess")
+ setLoading(false) ;
+
+})
+.catch(()=>{
+  console.log("some error ocuured while perfomring put reques")
+  setLoading(false) ;
+})
+ 
+
+}
 
 useEffect(()=>{
 
@@ -164,8 +173,8 @@ const handleOnChange = (x)=>{
     
     
       <main class="">
-
-      <Loader/>
+      <Loader loading={loading} />
+      
 
       <CounterCore 
         counterValue={value}
