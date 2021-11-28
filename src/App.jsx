@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react';
 import axios from "axios"
 import Editable from "./editable.jsx"
 
+import Pooler from "./pooling.js"
+
 
 import './App.css';
 
@@ -10,6 +12,11 @@ const MAX_VALUE = 1000
 
 
 const PUT_URL =  "https://interview-8e4c5-default-rtdb.firebaseio.com/front-end.json" ;
+
+
+
+const pooler = new Pooler() ;
+
 const  CounterValue = ({value})=>{
 
 return (
@@ -97,18 +104,19 @@ const [loading, setLoading] = useState(false)
 
 
 function sendDataToServer(new_value){
+
+  
 setLoading(true) ;
-axios.put(PUT_URL,{ Divyanshu_Raj :new_value})
+pooler.addRequest(new_value)
 .then(()=>{
-
- console.log("sucess")
- setLoading(false) ;
-
+setLoading(false) ;
 })
 .catch(()=>{
-  console.log("some error ocuured while perfomring put reques")
-  setLoading(false) ;
+setLoading(false) ;
 })
+
+
+
  
 
 }
