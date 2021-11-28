@@ -142,7 +142,7 @@ useEffect(()=>{
 }
 
 return ()=>{
-document.querySelector('.editable')?.onkeypress = null ;
+document.querySelector('.editable').onkeypress = null ;
 
 }
   
