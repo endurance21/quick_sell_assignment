@@ -14,7 +14,7 @@ const MAX_VALUE = 1000
 const PUT_URL =  "https://interview-8e4c5-default-rtdb.firebaseio.com/front-end.json" ;
 
 
-
+// used to handle upate queries in a robust manner
 const pooler = new Pooler() ;
 
 const  CounterValue = ({value})=>{
@@ -105,7 +105,7 @@ const [loading, setLoading] = useState(false)
 
 function sendDataToServer(new_value){
 
-  
+
 setLoading(true) ;
 pooler.addRequest(new_value)
 .then(()=>{
@@ -142,7 +142,7 @@ useEffect(()=>{
 }
 
 return ()=>{
-document.querySelector('.editable').onkeypress = null ;
+document.querySelector('.editable')?.onkeypress = null ;
 
 }
   

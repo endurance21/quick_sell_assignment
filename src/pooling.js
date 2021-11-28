@@ -7,35 +7,45 @@ const PUT_URL =  "https://interview-8e4c5-default-rtdb.firebaseio.com/front-end.
 
 class Pooler{
 
-   //will keep promised of network requests
-
+  // will que every update request
     requests ;
     consuming ;
 
+    // methods to handle ovrall promise 
     resolver ;
     rejecter ;
    
   constructor(r){
- this.requests = [] ;
- this.consuming = false ;
- this.resolver = null ;
- this.rejecter = null ;
+    this.requests = [] ;
+    this.consuming = false ;
+    this.resolver = null ;
+    this.rejecter = null ;
 
-    //nothing yet
+    
     
 
   }
 
+  // thoough the name of this method should be produce() 
+  // renaming can be thought as next tasks
 addRequest(value){
 
  
 
+  // add a new request to the end of the queue
 
   this.requests.unshift(value) ;
-  console.log(this.requests)
+
+ //check if system is already consuming , if not then restart the consumer to consume the request as 
+ // new request has come
    if(this.consuming == false)
    this.consume()
-let tmp =  this ;
+
+
+
+    let tmp =  this ;
+    // follwoing is the promise that will resolved when finally every requests in queue has been resolved
+
    let _promise =  new Promise((resolve,reject)=>{
     tmp.resolver = resolve ;
      tmp.rejector = reject ;
@@ -45,13 +55,16 @@ return _promise ;
 }
 
   consume(){
-    let  tmp = this ;
+      let  tmp = this ;
      this.consuming = true 
-    //base case
+
+
+    //base case when every requests has been processed
     if(this.requests.length ==0 ){
+
       this.consuming = false 
       tmp.resolver() ;
-       console.log("resolced")
+
       return ;
     }
      let value = this.requests.pop() ;
@@ -59,11 +72,11 @@ return _promise ;
      let p = axios.put(PUT_URL,{ Divyanshu_Raj :value}) ;
 
      p.then(()=>{
-       //recurise call for next
+       //recurise call for next request 
         tmp.consume() ;
 
      }).catch(()=>{
-       //recurive move on for next 
+       //recurive move on , for next 
        tmp.consume() ;
        tmp.rejector() ;
      })
